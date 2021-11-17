@@ -1,11 +1,13 @@
 package com.example.security.services;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.example.security.model.Role;
 import com.example.security.repository.UserRepository;
 
+// import org.apache.catalina.Role;
 import org.apache.catalina.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -42,6 +44,13 @@ public class SSUserDetailsService implements UserDetailsService{
 
     private Set<GrantedAuthority> getAuthorities(User user){
         Set<GrantedAuthority> authorities = new HashSet<>();
+
+        // Iterator<Role> role = user.getRoles();
+        // while(role.hasNext()){
+        //     GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.next().toString());
+        //     authorities.add(grantedAuthority);
+        // }
+
         for(Role role: user.getRoles()){
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRole());
             authorities.add(grantedAuthority);
