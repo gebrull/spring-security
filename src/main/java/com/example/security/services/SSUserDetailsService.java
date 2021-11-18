@@ -12,9 +12,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
+@Service
 public class SSUserDetailsService implements UserDetailsService{
 
+  
     private UserRepository userRepository;
 
     public SSUserDetailsService(UserRepository userRepository){
@@ -24,11 +29,17 @@ public class SSUserDetailsService implements UserDetailsService{
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
        
+
+       
         try{
-            User user = (User) userRepository.findByUsername(username);
-            if(user == null){
+
+            //O problema tá aqui!!!!
+            User user = userRepository.findByUsername(username);
+            
+            if(user == null){                
                 return null;
             }
+            
             return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user)); 
 
         }catch(Exception e){

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -31,6 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Autowired
     private UserRepository userRepository;
 
+    private DaoAuthenticationConfigurer<AuthenticationManagerBuilder, UserDetailsService> passwordEncoder;
+
     @Override
     public UserDetailsService userDetailsServiceBean() throws Exception{
         return new SSUserDetailsService(userRepository);
@@ -52,9 +55,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception{ 
         http.authorizeRequests()
-            .antMatchers("/", "/h2-console").permitAll()   
-            .antMatchers("/admin").access("hasAuthority('ADMIN')")          // o mesmo para essa linha
-            .anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
+            .antMatchers("/", "/h2-console/**").permitAll()   // basicamente não deixa avançar nas paginas sem permissão
+            .antMatchers("/admin").access("hasAuthority('ADMIN')")          
+            .anyRequest().authenticated()
+            .and().formLogin().loginPage("/login").permitAll()
             .and()
             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))    //aqui basicamente nos envia para o logout
             .logoutSuccessUrl("/login").permitAll()    // quando o logout é bem sucedido, nos redireciona para o /login
@@ -65,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
         http.headers().frameOptions().disable();
     }
 
-    // Não usaremos esse método pq agora vamos usar a autenticação no bd
+    //Não usaremos esse método pq agora vamos usar a autenticação no bd
     // @Override
     // protected void configure(AuthenticationManagerBuilder auth) throws Exception{ 
     //     auth.inMemoryAuthentication()   //metodo para autenticar em memória os users e senhas
@@ -77,9 +81,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{ //metodo para escolher como autenticar os users e senhas
-        
-        auth.userDetailsService(userDetailsServiceBean()).passwordEncoder(passwordEncoder());
-
+        passwordEncoder = auth.userDetailsService(userDetailsServiceBean())
+            .passwordEncoder(passwordEncoder());
     }
 
 

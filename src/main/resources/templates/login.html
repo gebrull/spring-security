@@ -7,34 +7,26 @@
     <title>Login</title>
 </head>
 <body>
-    
     <div th:if="${param.error}">
-        Senha ou username inválido!
+        Senha ou username invalido!
     </div>
-
-
-
+    
     <div th:if="${param.logout}">
-        Você está desconectado!
+        Voce esta desconectado!
     </div>
-
-
+    
     <form th:action="@{/login}" method="post">
-
-        
+    
         <div>
-            <label>Username: <input type="text" name="username"></label>
+            <label>Username: <input type="text" name="username"/></label>
         </div>
-
+    
         <div>
-            <label>Senha: <input type="password" name="password"></label>
+            <label>Password: <input type="password" name="password"/></label>
         </div>
-
-        <div>
-            <input type="submit" value="Sign in">
-        </div>
-
+    
+        <div><input type="submit" value="Sign in"></div>
+    
     </form>
-
-</body>
+    </body>
 </html>
