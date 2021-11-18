@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 
 
 // imports pro debug
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+// import org.slf4j.Logger;
+// import org.slf4j.LoggerFactory;
 
 
 
@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class DataLoader implements CommandLineRunner{
 
     // debug
-    private static Logger logger = LoggerFactory.getLogger(DataLoader.class);
+    // private static Logger logger = LoggerFactory.getLogger(DataLoader.class);
     
 
 
