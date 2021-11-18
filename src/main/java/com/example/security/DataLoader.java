@@ -27,10 +27,6 @@ public class DataLoader implements CommandLineRunner{
     // debug
     // private static Logger logger = LoggerFactory.getLogger(DataLoader.class);
     
-
-
-
-
     @Autowired
     UserRepository userRepository;
 

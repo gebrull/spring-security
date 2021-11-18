@@ -114,5 +114,8 @@ public class User {
         this.roles = roles;
     }
 
+    public void setEnabledTrue(){
+        this.enabled = true;
+    }
     
 }

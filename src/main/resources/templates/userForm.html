@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add user</title>
+</head>
+<body>
+
+    <h1>Formulário de Usuário</h1>
+
+    <form action="#" th:action="@{/admin/process}" th:object="${user}" method="post">
+        Email: <input type="text" th:field="*{email}">
+        <span th:if="${#fields.hasErrors('email')}"
+              th:errors="*{email}"></span><br>
+
+        Senha: <input type="password" th:field="*{password}">
+        <span th:if="${#fields.hasErrors('password')}"
+              th:errors="*{password}"></span><br>
+
+        Nome: <input type="text" th:field="*{name}">
+        <span th:if="${#fields.hasErrors('name')}"
+              th:errors="*{name}"></span><br>
+
+        Último nome: <input type="text" th:field="*{last_name}">
+        <span th:if="${#fields.hasErrors('last_name')}"
+              th:errors="*{last_name}"></span><br>
+        
+        Username: <input type="text" th:field="*{username}">
+        <span th:if="${#fields.hasErrors('username')}"
+              th:errors="*{username}"></span><br>
+
+        Usuário habilitado: <input type="checkbox" th:field="*{enabled}">
+
+        <input type="submit" value="Enviar">
+    </form>
+    
+</body>
+</html>
